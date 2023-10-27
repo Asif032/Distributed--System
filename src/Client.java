@@ -8,11 +8,14 @@ public class Client {
 
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            System.out.println("Connected to the server.");
+            BufferedReader in;
+            PrintWriter out;
+            try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
+                System.out.println("Connected to the server.");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+            }
 
 
             Thread messageReceiver = new Thread(new MessageReceiver(in));
